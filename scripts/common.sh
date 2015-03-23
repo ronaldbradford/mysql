@@ -35,6 +35,7 @@ DATA_EXT=".csv"
 #
 DATE_TIME=`date ${DATE_TIME_FORMAT}`
 DATE_TIME_TZ=`date ${DATE_TIME_FORMAT}%z`
+DATE=`date +%Y%m%d`
 [ -z "${TMP_DIR}" ] && TMP_DIR="/tmp"
 TMP_FILE="${TMP_DIR}/${SCRIPT_NAME}.tmp.$$"
 STOP_FILE="${TMP_DIR}/${SCRIPT_NAME}.stop"
