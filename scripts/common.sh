@@ -445,8 +445,10 @@ verify_mysql_login() {
 #
 mysql_home() {
   [ -z "${MYSQL_HOME}" ] && error "MYSQL_HOME must be specified" 
-  [ -z `which mysql` ] && error "mysql client not in path, \$MYSQL_HOME/bin should be added to PATH"
-  [ -z `which mysqladmin` ] && error "mysqladmin not in path, \$MYSQL_HOME/bin should be added to PATH"
+  MYSQL=`which mysql`
+  MYSQLADMIN=`which mysqladmin`
+  [ -z "${MYSQL}" ] && error "mysql client not found in path, \$MYSQL_HOME/bin should be added to PATH"
+  [ -z "${MYSQLADMIN}" ] && error "mysqladmin not found in path, \$MYSQL_HOME/bin should be added to PATH"
 
   return 0
 }
