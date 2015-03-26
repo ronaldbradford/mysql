@@ -313,6 +313,7 @@ set_base_paths() {
   COMMON_ENV_FILE="${CNF_DIR}/.common"
   [ -f "${COMMON_ENV_FILE}" ] && . ${COMMON_ENV_FILE}
   DEFAULT_CNF_FILE="${CNF_DIR}/${SCRIPT_NAME}.cnf"
+  DEFAULT_MY_CNF_FILE="${CNF_DIR}/${SCRIPT_NAME}.my.cnf"
   DEFAULT_LOG_FILE="${LOG_DIR}/${SCRIPT_NAME}.${DATE_TIME}${LOG_EXT}"
   DEFAULT_HOST_LOG_FILE="${LOG_DIR}/${SCRIPT_NAME}.${DATE_TIME}.${SHORT_HOSTNAME}${LOG_EXT}"
   DEFAULT_HOST_CNF_FILE="${CNF_DIR}/${SCRIPT_NAME}.${SHORT_HOSTNAME}.cnf"
@@ -435,7 +436,7 @@ run() {
 # Check for authentication to connect to mysql
 #
 verify_mysql_login() {
-  [ -z "${MYSQL_AUTHENTICATION}" ] && error "There is no MYSQL_AUTHENTICATION to execute mysql commands"
+  [ -z "${MYSQL_AUTHENTICATION}" ] && error "There is no MYSQL_AUTHENTICATION to execute mysql commands."
 
   return 0
 }
@@ -447,8 +448,10 @@ mysql_home() {
   [ -z "${MYSQL_HOME}" ] && error "MYSQL_HOME must be specified" 
   MYSQL=`which mysql`
   MYSQLADMIN=`which mysqladmin`
-  [ -z "${MYSQL}" ] && error "mysql client not found in path, \$MYSQL_HOME/bin should be added to PATH"
-  [ -z "${MYSQLADMIN}" ] && error "mysqladmin not found in path, \$MYSQL_HOME/bin should be added to PATH"
+  MYSQLDUMP=`which mysqldump`
+  [ -z "${MYSQL}" ] && error "mysql client not found in path, \$MYSQL_HOME/bin should be added to PATH."
+  [ -z "${MYSQLADMIN}" ] && error "mysqladmin not found in path, \$MYSQL_HOME/bin should be added to PATH."
+  [ -z "${MYSQLDUMP}" ] && error "mysqldump not found in path, \$MYSQL_HOME/bin should be added to PATH."
 
   return 0
 }
