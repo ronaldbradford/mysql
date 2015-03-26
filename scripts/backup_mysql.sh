@@ -1,4 +1,4 @@
-c!/bin/sh
+#!/bin/sh
 #-------------------------------------------------------------------------------
 # Name:     backup_mysql.sh
 # Purpose:  A script for managing mysqldump backups of MySQL
