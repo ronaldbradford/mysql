@@ -68,7 +68,7 @@ backup_db() {
   info "Generating '${SCHEMA}' data"
   DATA_FILE="${BACKUP_DIR}/${SCHEMA}.data.${DATE}.sql"
   debug ".. ${DATA_FILE}"
-  ${MYSQLDUMP} ${DEFAULTS_FILE} ${MYSQLDUMP_OPTIONS} --databases ${SCHEMA} --single-transaction --no-create-info --skip-triggers --skip-events > ${DATA_FILE}
+  ${MYSQLDUMP} ${DEFAULTS_FILE} ${BACKUP_OPTIONS} --databases ${SCHEMA} --single-transaction --no-create-info --skip-triggers --skip-events > ${DATA_FILE}
   RC=$?
   [ ${RC} -ne 0 ] && warn "dump of data failed with [${RC}]. Stopping backup process" && return $RC
 
