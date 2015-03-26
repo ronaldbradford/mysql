@@ -1,0 +1,2 @@
+BACKUP_DIR="/backup"
+BACKUP_DAYS="5"
