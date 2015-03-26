@@ -1,2 +1,4 @@
 CREATE USER backup_user@localhost IDENTIFIED BY 'backup_password';
-GRANT SELECT, SHOW VIEW, TRIGGER, LOCK TABLES ON *.* to backup_user@localhost;
+-- RELOAD is required for --master-data
+-- LOCK TABLES is required when --single-transaction is not specified (because --opt than is default)
+GRANT SELECT, SHOW VIEW, TRIGGER, LOCK TABLES, RELOAD ON *.* to backup_user@localhost;
