@@ -441,11 +441,10 @@ verify_mysql_login() {
   return 0
 }
 
-#---------------------------------------------------------------- mysql_home --
-#  Check for defined MYSQL_HOME and PATH
+#------------------------------------------------------------ mysql_binaries -
+#  Check for defined mysql binaries in the current PATH
 #
-mysql_home() {
-  [ -z "${MYSQL_HOME}" ] && error "MYSQL_HOME must be specified" 
+mysql_binaries() {
   MYSQL=`which mysql`
   MYSQLADMIN=`which mysqladmin`
   MYSQLDUMP=`which mysqldump`
