@@ -1,4 +1,5 @@
 BACKUP_DIR="/backup"
 BACKUP_DAYS="5"
+BACKUP_LOG="${BACKUP_DIR}/backup.log"
 #BACKUP_OPTIONS=${MASTER_OPTIONS}  # Backup a master DB with point-in-time capabilities
 #BACKUP_OPTIONS=${SLAVE_OPTIONS}   # Backup a slave DB with master point-in-time capabilities
