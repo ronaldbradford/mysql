@@ -61,14 +61,12 @@ backup_db() {
   [ ${RC} -ne 0 ] && warn "dump of schema objects failed with [${RC}]" && EXIT_STATUS=$RC
 
 
-  [ "${FLUSH}" = "Y" ] && mysql ${DEFAULTS_FILE} -e "FLUSH LOGS"
+  [ "${FLUSH}" = "Y" ] && ${FLUSH_OPTIONS}="--flush-logs"
 
-  #MYSQLDUMP_OPTIONS="${MASTER_OPTIONS}"
-
-  info "Generating '${SCHEMA}' data"
+  info "Generating '${SCHEMA}' data with additional options '${BACKUP_OPTIONS} ${FLUSH_OPTIONS}'"
   DATA_FILE="${BACKUP_DIR}/${SCHEMA}.data.${DATE}.sql"
   debug ".. ${DATA_FILE}"
-  ${MYSQLDUMP} ${DEFAULTS_FILE} ${BACKUP_OPTIONS} --databases ${SCHEMA} --single-transaction --no-create-info --skip-triggers --skip-events > ${DATA_FILE}
+  ${MYSQLDUMP} ${DEFAULTS_FILE} ${BACKUP_OPTIONS} ${FLUSH_OPTIONS} --databases ${SCHEMA} --single-transaction --no-create-info --skip-triggers --skip-events > ${DATA_FILE}
   RC=$?
   [ ${RC} -ne 0 ] && warn "dump of data failed with [${RC}]. Stopping backup process" && return $RC
 
@@ -159,7 +157,7 @@ pre_processing() {
   local FUNCTION="pre_processing()"
   debug "${FUNCTION} $*"
 
-  # Verify MySQL configuration 
+  # Verify MySQL configuration
   mysql_home
 
   # Load environment specific default configuration
