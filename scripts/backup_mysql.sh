@@ -157,8 +157,8 @@ pre_processing() {
   local FUNCTION="pre_processing()"
   debug "${FUNCTION} $*"
 
-  # Verify MySQL configuration
-  mysql_home
+  # Verify MySQL command access
+  mysql_binaries
 
   # Load environment specific default configuration
   [ -f "${DEFAULT_CNF_FILE}" ] && . ${DEFAULT_CNF_FILE}
