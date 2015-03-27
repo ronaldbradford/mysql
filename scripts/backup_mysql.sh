@@ -23,6 +23,7 @@ SLAVE_OPTIONS="--dump-slave=2"
 #-------------------------------------------------------------------------------
 # Script specific variables
 #
+BACKUP_TMP_LOG="/tmp/${SCRIPT_NAME}.txt.$$"
 
 #------------------------------------------------------------------ backup_db --
 backup_db() {
@@ -75,7 +76,7 @@ backup_db() {
   MD5=`md5sum ${DATA_FILE}`
   info "${MD5}"
 
-  gzip -f ${DATA_FILE}
+  ${GZIP} -f ${DATA_FILE}
   RC=$?
   [ ${RC} -ne 0 ] && warn "compress of data failed with [${RC}]" && EXIT_STATUS=$RC
 
@@ -165,7 +166,8 @@ pre_processing() {
 
   # Define some global defaults
   [ -z "${BACKUP_DIR}" ] && BACKUP_DIR="/backup"
-  [ -z "${BACKUP_DAYS}" ] && BACKUP_DAYS=7
+  [ -z "${BACKUP_DAYS}" ] && BACKUP_DAYS="7"
+  [ -z "${BACKUP_LOG}" ] && BACKUP_LOG="${BACKUP_DIR}/backup.log"
 
   [ ! -d "${BACKUP_DIR}" ] && error "The defined backup directory of '${BACKUP_DIR}' does not exist."
 
@@ -203,11 +205,14 @@ help() {
 main () {
   [ ! -z "${TEST_FRAMEWORK}" ] && return 1
   bootstrap
+  exec &> ${BACKUP_TMP_LOG} 2>&1
   process_args $*
   pre_processing
   commence
   process ${PARAM_FLUSH} ${PARAM_SCHEMA}
   complete
+  cat ${BACKUP_TMP_LOG} >> ${BACKUP_LOG}
+  rm -r ${BACKUP_TMP_LOG}
 
   return 0
 }
