@@ -203,6 +203,7 @@ help() {
 # Post completion logging, helpful for stdout post manipulation
 #
 post_complete() {
+  touch ${BACKUP_TMP_LOG}
   cat ${BACKUP_TMP_LOG} >> ${BACKUP_LOG}
   rm -r ${BACKUP_TMP_LOG}
  
@@ -215,7 +216,7 @@ post_complete() {
 main () {
   [ ! -z "${TEST_FRAMEWORK}" ] && return 1
   bootstrap
-  exec > ${BACKUP_TMP_LOG} 2>&1
+  [ -z "${VIEW_LOGGING}" ] && exec > ${BACKUP_TMP_LOG} 2>&1
   process_args $*
   pre_processing
   commence
