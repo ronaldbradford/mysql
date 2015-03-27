@@ -55,6 +55,9 @@ DEFAULT_LOCK_TIMEOUT=60
 DEFAULT_PRODUCT="mysql"
 DEFAULT_MYSQL_USER="dba"
 
+GZIP=`which gzip 2>/dev/null`
+[ ! -z `which pigz 2>/dev/null` ] && GZIP=`which pigz`
+
 #----------------------------------------------------------------cleanup_exit --
 # Exit the program, reporting exit code and clean up default tmp file
 # Was named leave() by conflicts with BSD command
