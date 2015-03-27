@@ -23,7 +23,7 @@ SLAVE_OPTIONS="--dump-slave=2"
 #-------------------------------------------------------------------------------
 # Script specific variables
 #
-BACKUP_TMP_LOG="/tmp/${SCRIPT_NAME}.txt.$$"
+BACKUP_TMP_LOG="/tmp/${SCRIPT_NAME}.log.$$"
 
 #------------------------------------------------------------------ backup_db --
 backup_db() {
@@ -199,20 +199,28 @@ help() {
   return 0
 }
 
+#-------------------------------------------------------------- post_complete --
+# Post completion logging, helpful for stdout post manipulation
+#
+post_complete() {
+  cat ${BACKUP_TMP_LOG} >> ${BACKUP_LOG}
+  rm -r ${BACKUP_TMP_LOG}
+ 
+  return 0
+}
+
 #----------------------------------------------------------------------- main --
 # Main Script Processing
 #
 main () {
   [ ! -z "${TEST_FRAMEWORK}" ] && return 1
   bootstrap
-  exec &> ${BACKUP_TMP_LOG} 2>&1
+  exec > ${BACKUP_TMP_LOG} 2>&1
   process_args $*
   pre_processing
   commence
   process ${PARAM_FLUSH} ${PARAM_SCHEMA}
   complete
-  cat ${BACKUP_TMP_LOG} >> ${BACKUP_LOG}
-  rm -r ${BACKUP_TMP_LOG}
 
   return 0
 }
