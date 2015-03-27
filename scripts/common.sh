@@ -270,6 +270,9 @@ complete() {
   [ -z" ${TOTAL_SECS}" ] && TOTAL_SECS=`expr ${END_SEC} - ${START_SEC}`
   info "Script completed successfully (${TOTAL_SECS} secs)"
 
+  # Perform any post handling, expecially stdout redirection for cron logging
+  post_complete 2>/dev/null
+
   cleanup_exit 0
 }
 
