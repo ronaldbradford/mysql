@@ -62,7 +62,7 @@ backup_db() {
   [ ${RC} -ne 0 ] && warn "dump of schema objects failed with [${RC}]" && EXIT_STATUS=$RC
 
 
-  [ "${FLUSH}" = "Y" ] && ${FLUSH_OPTIONS}="--flush-logs"
+  [ "${FLUSH}" = "Y" ] && FLUSH_OPTIONS="--flush-logs"
 
   info "Generating '${SCHEMA}' data with additional options '${BACKUP_OPTIONS} ${FLUSH_OPTIONS}'"
   DATA_FILE="${BACKUP_DIR}/${SCHEMA}.data.${DATE}.sql"
