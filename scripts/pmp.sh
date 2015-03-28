@@ -1,0 +1,24 @@
+#!/bin/bash
+
+# Poor Mans Profiler
+# See http://poormansprofiler.org/
+
+[ -z `which gdb` ] && echo "ERROR:  gdb needs to be installed" && exit 1
+
+[ -z "${NSAMPLES}" ] && NSAMPLES=1
+[ -z "${SLEEPTIME}" ] && SLEEPTIME=0
+pid=$(pidof mysqld)
+
+for x in $(seq 1 $NSAMPLES)
+  do
+    gdb -ex "set pagination 0" -ex "thread apply all bt" -batch -p $pid
+    sleep $SLEEPTIME
+  done | \
+awk '
+  BEGIN { s = ""; }
+  /^Thread/ { print s; s = ""; }
+  /^\#/ { if (s != "" ) { s = s "," $4} else { s = $4 } }
+  END { print s }' | \
+sort | uniq -c | sort -r -n -k 1,1
+
+exit 0
