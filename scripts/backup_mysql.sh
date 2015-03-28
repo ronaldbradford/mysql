@@ -216,7 +216,7 @@ post_complete() {
 main () {
   [ ! -z "${TEST_FRAMEWORK}" ] && return 1
   bootstrap
-  [ -z "${VIEW_LOGGING}" ] && exec > ${BACKUP_TMP_LOG} 2>&1
+  [ ! -t 1 ] && exec > ${BACKUP_TMP_LOG} 2>&1
   process_args $*
   pre_processing
   commence
