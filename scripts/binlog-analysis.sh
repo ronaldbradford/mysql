@@ -10,7 +10,7 @@ BINLOG_ADDITIONAL_ARGS=$*
 
 
 BINLOG_LOCATION=`grep "^log.bin" /etc/my.cnf /etc/mysql/my.cnf  2>/dev/null | cut -d'=' -f2`
-[ ! -z "${BINLOG_LOCATION}" ] && BINLOG_BASE_DIR=`dirname ${BINLOG_LOCATION}`
+#[ ! -z "${BINLOG_LOCATION}" ] && BINLOG_BASE_DIR=`dirname ${BINLOG_LOCATION}`
 if [ ! -f "${BINARY_LOG_FILE}" ] 
 then
   BINARY_LOG_FULL_PATH_FILE="${BINLOG_BASE_DIR}/${BINARY_LOG_FILE}"
